@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Cached activations (regenerate via common.py)
+analysis/.cache/
+
+# Data and original model (from BlueDot's puzzle repo)
+data/
+model.pt
+feature_names.json
+
+# Misc
+.DS_Store
+*.log
+*.tmp
