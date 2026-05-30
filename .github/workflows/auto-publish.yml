@@ -1,0 +1,49 @@
+# Auto-publish this repo on 2026-06-13 at 00:05 UTC, the day after BlueDot's
+# "do not share publicly before 12th June" deadline.
+#
+# Setup (one-time):
+#   1. Create a GitHub PAT at https://github.com/settings/tokens with `repo`
+#      scope (admin permission on this repo).
+#   2. Add it as a repo secret named GH_ADMIN_PAT:
+#      gh secret set GH_ADMIN_PAT -b "<your-pat>"
+#   3. This workflow then fires on schedule and flips visibility automatically.
+#
+# After it runs once, delete this workflow file — it's no longer needed.
+
+name: Auto-publish after BlueDot deadline
+
+on:
+  schedule:
+    # Fires every day at 00:05 UTC. The job exits early if it's too soon.
+    - cron: "5 0 * * *"
+  workflow_dispatch:  # also allow manual trigger
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check date
+        id: check
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          echo "today=$TODAY" >> "$GITHUB_OUTPUT"
+          if [[ "$TODAY" < "2026-06-13" ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Today is $TODAY. Waiting for 2026-06-13."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Make repo public
+        if: steps.check.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GH_ADMIN_PAT }}
+        run: |
+          gh repo edit ${{ github.repository }} \
+            --visibility public \
+            --accept-visibility-change-consequences
+          gh repo edit ${{ github.repository }} \
+            --add-topic interpretability \
+            --add-topic ai-safety \
+            --add-topic mechanistic-interpretability \
+            --add-topic bluedot-impact
+          echo "Repo is now public."

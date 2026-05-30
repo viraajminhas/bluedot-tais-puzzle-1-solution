@@ -99,6 +99,24 @@ The full investigation runs end-to-end on CPU in about half an hour.
 - `figs/model_D_period4_geometry.png` — Task 3 Model D circle (period 4)
 - `figs/side_by_side_puzzle_vs_modelA.png` — puzzle vs my model side-by-side
 
+## Going public
+
+This repo is private until **2026-06-13**, the day after BlueDot's "do not share publicly before 12th June" deadline. After that date, run any of:
+
+```bash
+# Bash / Mac / Linux
+bash scripts/make_public.sh
+
+# PowerShell / Windows
+pwsh scripts/make_public.ps1
+
+# Or directly via gh CLI
+gh repo edit viraajminhas/bluedot-tais-puzzle-1-solution \
+    --visibility public --accept-visibility-change-consequences
+```
+
+There's also a GitHub Action at `.github/workflows/auto-publish.yml` that fires daily and flips visibility automatically on or after 2026-06-13 — but it needs a personal-access-token secret (`GH_ADMIN_PAT`) since the default `GITHUB_TOKEN` cannot change repo visibility. Setup instructions inside the workflow file.
+
 ## License
 
 MIT (see [LICENSE](LICENSE)).
