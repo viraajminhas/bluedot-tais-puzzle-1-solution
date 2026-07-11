@@ -24,7 +24,7 @@ A quadratic discriminant on h2 recovers **96.7% — matching the MLP probe ceili
 
 **For Task 3, three weirder models.** Each bottlenecks the target layer to 2-D and forces activations onto the unit circle at sub-class-specific angles; binary target = sign(cos(N·θ)) requires the N-th Fourier harmonic to decode. Models with periods 2, 3, 4. Linear probes below chance; only the right Fourier harmonic decodes. Causal rotations confirm the period structure exactly.
 
-Full writeup: [SUBMISSION.md](SUBMISSION.md) or [SUBMISSION.docx](SUBMISSION.docx).
+Full writeup: [SUBMISSION.docx](SUBMISSION.docx).
 
 ## Repository structure
 
